@@ -1,0 +1,45 @@
+<div class="user-card">
+    <div class="user-avatar">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+        </svg>
+    </div> @if(user$ | async; as user) {
+    <div class="user-info">
+
+        <div class="info-group">
+            <label>Name:</label>
+            <span>{{user.name}}</span>
+        </div>
+        <div class="info-group">
+            <label>Username:</label>
+            <span>{{user.username}}</span>
+        </div>
+        <div class="info-group">
+            <label>Email:</label>
+            <span>{{user.email}}</span>
+        </div>
+        <div class="info-group">
+            <label>Teléfono:</label>
+            <span>{{user.phone}}</span>
+        </div>
+        <div class="info-group">
+            <label>Ciudad:</label>
+            <span>{{user.address.city}}</span>
+        </div>
+        <div class="info-group">
+            <label>Empresa:</label>
+            <span>{{user.company.name}}</span>
+        </div>
+        <div class="info-group">
+            <label>Sitio Web:</label>
+            <span>{{user.website}}</span>
+        </div>
+        <div class="info-group">
+            <label>Dirección:</label>
+            <span>{{user.address.street}}, {{user.address.suite}}</span>
+        </div>
+    </div>
+    }
+
+</div>

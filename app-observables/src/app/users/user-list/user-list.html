@@ -1,0 +1,22 @@
+<table class="users-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(user of users$ | async; track user) {
+        <tr class="user-row">
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td>
+                <button class="select-btn" (click)="selectUser(user.id)">Seleccionar</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

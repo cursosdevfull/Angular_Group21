@@ -1,0 +1,32 @@
+<div class="app-container">
+  <!-- User List Component -->
+  <div class="user-list-component">
+    <div class="component-header">
+      <h2>Lista de Usuarios</h2>
+    </div>
+    <div class="component-content">
+      <app-user-list (onSelectUser)="userSelected=$event"></app-user-list>
+    </div>
+  </div>
+
+  <!-- User Detail Component -->
+  <div class="user-detail-component">
+    <div class="component-header">
+      <h2>Detalle del Usuario</h2>
+    </div>
+    <div class="component-content">
+      <app-user-detail [userId]="userSelected"></app-user-detail>
+    </div>
+  </div>
+
+  <!-- User Posts Component -->
+  <div class="user-post-component">
+    <div class="component-header">
+      <h2>Posts del Usuario</h2>
+    </div>
+    <div class="component-content">
+      <app-user-post [userId]="userSelected"></app-user-post>
+
+    </div>
+  </div>
+</div>
