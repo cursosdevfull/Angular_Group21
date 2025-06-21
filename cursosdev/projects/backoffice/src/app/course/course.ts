@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CourseService } from '../course-service';
 
 @Component({
   selector: 'cdev-course',
@@ -7,28 +8,24 @@ import { Component } from '@angular/core';
 })
 export class Course {
   title = "Courses";
+  courseService: CourseService;
 
-  courses = [
-    {
-      id: 1,
-      name: 'Angular Fundamentals',
-      description: 'Learn the basics of Angular framework.',
-      duration: '3 weeks',
-      price: 199.99
-    },
-    {
-      id: 2,
-      name: 'Advanced Angular',
-      description: 'Deep dive into Angular features and best practices.',
-      duration: '4 weeks',
-      price: 299.99
-    },
-    {
-      id: 3,
-      name: 'Angular and TypeScript',
-      description: 'Master TypeScript while building Angular applications.',
-      duration: '5 weeks',
-      price: 349.99
-    }
-  ]
+  courses: { id: number, name: string, description: string, duration: string, price: number }[] = [];
+
+  constructor(courseService: CourseService) {
+    this.courseService = courseService;
+    this.courses = courseService.getCourses();
+  }
+
+  addCourse() {
+    const newCourse = {
+      id: this.courses.length + 1,
+      name: 'New Course',
+      description: 'Description of the new course',
+      duration: '2 weeks',
+      price: 99.99
+    };
+    this.courseService.addCourse(newCourse);
+    this.courses = this.courseService.getCourses();
+  }
 }
