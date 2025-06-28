@@ -1,0 +1,45 @@
+<div class="user-list-container">
+    <div class="user-list-header">
+        <h2>Lista de Usuarios</h2>
+        <p class="user-count">Total: {{users().length}} usuarios</p>
+    </div>
+
+    <div class="users-grid">
+        @for(user of users(); track user) {
+        <div class="user-card">
+            <div class="user-avatar">
+                <div class="avatar-placeholder">
+                    {{user.name.charAt(0).toUpperCase()}}
+                </div>
+            </div>
+
+            <div class="user-info">
+                <h3 class="user-name">{{user.name}}</h3>
+                <p class="user-email">
+                    <i class="icon-email">📧</i>
+                    {{user.email}}
+                </p>
+                <p class="user-phone">
+                    <i class="icon-phone">📱</i>
+                    {{user.phone}}
+                </p>
+            </div>
+
+            <div class="user-actions">
+                <button class="btn-select" type="button" (click)="selectUser(user)">
+                    <span class="btn-icon">👤</span>
+                    Seleccionar
+                </button>
+            </div>
+        </div>
+        }
+    </div>
+
+    @if(users().length === 0) {
+    <div class="empty-state">
+        <div class="empty-icon">👥</div>
+        <h3>No hay usuarios disponibles</h3>
+        <p>Aún no se han cargado usuarios en el sistema.</p>
+    </div>
+    }
+</div>

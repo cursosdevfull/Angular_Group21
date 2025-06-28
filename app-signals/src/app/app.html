@@ -1,0 +1,37 @@
+<div class="app-container">
+  <header class="app-header">
+    <h1>Angular Signals Dashboard</h1>
+    <p>Gestión de usuarios, álbumes y fotos</p>
+  </header>
+
+  <main class="app-main">
+    <div class="components-container">
+      <section class="component-section">
+        <div class="component-header">
+          <h2>Lista de Usuarios</h2>
+        </div>
+        <div class="component-content">
+          <app-user-list (onUserSelected)="userSelected($event)"></app-user-list>
+        </div>
+      </section>
+
+      <section class="component-section">
+        <div class="component-header">
+          <h2>Álbumes</h2>
+        </div>
+        <div class="component-content">
+          <app-user-albumnes [usuarioId]="userId" (onSelectedAlbum)="albumSelected($event)"></app-user-albumnes>
+        </div>
+      </section>
+
+      <section class="component-section">
+        <div class="component-header">
+          <h2>Fotos</h2>
+        </div>
+        <div class="component-content">
+          <app-user-photos [albumId]="albumId"></app-user-photos>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>

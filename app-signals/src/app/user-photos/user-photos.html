@@ -1,0 +1,49 @@
+<div class="photos-container">
+    <div class="photos-header">
+        <h2>Fotos de Usuario</h2>
+        <p class="photos-count">Total: {{photos().length}} fotos</p>
+    </div>
+
+    <div class="photos-grid">
+        @for(photo of photos(); track photo.id) {
+        <div class="photo-card">
+            <div class="photo-icon">
+                <div class="image-container">
+                    <img [src]="photo.thumbnailUrl" [alt]="photo.title" />
+                </div>
+            </div>
+
+            <div class="photo-content">
+                <div class="photo-header">
+                    <h3 class="photo-title">{{photo.title}}</h3>
+                    <span class="photo-id">ID: {{photo.id}}</span>
+                </div>
+
+                <div class="photo-meta">
+                    <div class="photo-info">
+                        <span class="album-badge">
+                            <i class="album-icon">📁</i>
+                            Álbum: {{photo.albumId}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="photo-actions">
+                <a [href]="photo.url" target="_blank" class="btn-view">
+                    <span class="btn-icon">🖼️</span>
+                    Ver
+                </a>
+            </div>
+        </div>
+        }
+    </div>
+
+    @if(photos().length === 0) {
+    <div class="empty-state">
+        <div class="empty-icon">🖼️</div>
+        <h3>No hay fotos disponibles</h3>
+        <p>Aún no se han cargado fotos para este usuario.</p>
+    </div>
+    }
+</div>

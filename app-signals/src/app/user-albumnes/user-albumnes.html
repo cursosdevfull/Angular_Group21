@@ -1,0 +1,49 @@
+<div class="albums-container">
+    <div class="albums-header">
+        <h2>Álbumes de Usuario</h2>
+        <p class="albums-count">Total: {{albums().length}} álbumes</p>
+    </div>
+
+    <div class="albums-grid">
+        @for(album of albums(); track album.id) {
+        <div class="album-card">
+            <div class="album-icon">
+                <div class="icon-placeholder">
+                    📁
+                </div>
+            </div>
+
+            <div class="album-content">
+                <div class="album-header">
+                    <h3 class="album-title">{{album.title}}</h3>
+                    <span class="album-id">ID: {{album.id}}</span>
+                </div>
+
+                <div class="album-meta">
+                    <div class="album-info">
+                        <span class="user-badge">
+                            <i class="user-icon">👤</i>
+                            Usuario: {{album.userid}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="album-actions">
+                <button class="btn-view" type="button" (click)="viewAlbum(album)">
+                    <span class="btn-icon">👁️</span>
+                    Ver
+                </button>
+            </div>
+        </div>
+        }
+    </div>
+
+    @if(albums().length === 0) {
+    <div class="empty-state">
+        <div class="empty-icon">📁</div>
+        <h3>No hay álbumes disponibles</h3>
+        <p>Aún no se han cargado álbumes para este usuario.</p>
+    </div>
+    }
+</div>
