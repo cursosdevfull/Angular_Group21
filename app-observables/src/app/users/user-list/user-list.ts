@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Output, ViewEncapsulation } from '@ang
 import { UserService } from '../user-service';
 import { User } from '../user';
 import { AsyncPipe } from '@angular/common';
+import { catchError, EMPTY, tap } from 'rxjs';
 
 @Component({
   selector: 'app-user-list',
@@ -10,32 +11,26 @@ import { AsyncPipe } from '@angular/common';
   styleUrl: './user-list.css'
 })
 export class UserList {
+  messageError = ""
+
   usersService = inject(UserService)
-  users$ = this.usersService.getUsers();
+  users$ = this.usersService.fetchUsers$.pipe(
+    tap(() => this.messageError = ""),
+    catchError(error => {
+      console.log("Error fetching users:", error)
+      this.messageError = "Error fetching users. Please try again later."
+      return EMPTY
+    })
+  )
+
   users: User[] = []
-  @Output() onSelectUser = new EventEmitter<number>();
 
   constructor() {
     console.log("UserList component initialized");
-    //this.fetchUsers();
-  }
-
-  fetchUsers() {
-    console.log("Fetching users...");
-    this.users$.subscribe({
-      next: (users) => {
-        this.users = users;
-        console.log("list of users", this.users);
-      },
-      error: (error) => {
-        console.error('Error fetching users:', error);
-      }
-    })
   }
 
   selectUser(id: number) {
-    //alert(`User with ID ${id} selected`);
-    this.onSelectUser.emit(id)
+    this.usersService.userSelected(id);
   }
 
 

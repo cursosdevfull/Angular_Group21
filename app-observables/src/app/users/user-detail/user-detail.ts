@@ -11,14 +11,9 @@ import { AsyncPipe } from '@angular/common';
   styleUrl: './user-detail.css'
 })
 export class UserDetail {
-  @Input() userId: number = 0;
   user: User | undefined;
 
   userService = inject(UserService);
 
-  user$!: Observable<User>
-
-  ngOnChanges() {
-    this.user$ = this.userService.findUserById(this.userId)
-  }
+  user$ = this.userService.selectedUser$
 }

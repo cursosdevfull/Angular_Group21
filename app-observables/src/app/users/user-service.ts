@@ -1,37 +1,53 @@
 import { inject, Injectable } from '@angular/core';
 import { User } from './user';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable, Subject, switchMap, tap } from 'rxjs';
 import { Post } from './post';
+import { environment } from '../environtment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private users: User[] = []
-
   http = inject(HttpClient);
 
-  /*   http: HttpClient;
-  
-    constructor(httpService: HttpClient) {
-      this.http = httpService;
-    } */
+  private userSelectedSubject = new Subject<number>();
+  /* userSelected$ = this.userSelectedSubject.asObservable().pipe(
+    tap(id => console.log(`User selected: ${id}`)),
+    switchMap(id => this.findUserById(id)),
+  ); */
 
-  /*   constructor(private http: HttpClient) {
-  
-    } */
+  private userSelected$ = this.userSelectedSubject.asObservable()
+
+  fetchUsers$ = this.getUsers().pipe(
+    tap(() => console.log("Fetching users..."))
+  )
+
+  selectedUser$ = combineLatest([this.fetchUsers$, this.userSelected$]).pipe(
+    map(([userList, userId]) => userList.find(user => user.id === userId)),
+  )
+
+  postsUserSelected$ = this.userSelectedSubject.asObservable().pipe(
+    tap(id => console.log(`Fetching posts for user: ${id}`)),
+    switchMap(id => this.getPostByUserId(id)),
+  );
 
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>("https://jsonplaceholder.typicode.com/users")
+  private getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${environment.apiUrl}/users`)
   }
 
-  findUserById(id: number): Observable<User> {
-    return this.http.get<User>(`https://jsonplaceholder.typicode.com/users/${id}`)
+  private findUserById(id: number): Observable<User> {
+    return this.http.get<User>(`${environment.apiUrl}/users/${id}`)
   }
 
-  getPostByUserId(id: number): Observable<Post[]> {
-    return this.http.get<Post[]>(`https://jsonplaceholder.typicode.com/posts?userId=${id}`)
+  private getPostByUserId(id: number): Observable<Post[]> {
+    return this.http.get<Post[]>(`${environment.apiUrl}/posts?userId=${id}`)
   }
+
+  userSelected(id: number) {
+    this.userSelectedSubject.next(id);
+  }
+
+
 }

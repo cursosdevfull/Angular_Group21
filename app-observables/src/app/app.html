@@ -5,7 +5,7 @@
       <h2>Lista de Usuarios</h2>
     </div>
     <div class="component-content">
-      <app-user-list (onSelectUser)="userSelected=$event"></app-user-list>
+      <app-user-list></app-user-list>
     </div>
   </div>
 
@@ -15,7 +15,7 @@
       <h2>Detalle del Usuario</h2>
     </div>
     <div class="component-content">
-      <app-user-detail [userId]="userSelected"></app-user-detail>
+      <app-user-detail></app-user-detail>
     </div>
   </div>
 
@@ -25,8 +25,7 @@
       <h2>Posts del Usuario</h2>
     </div>
     <div class="component-content">
-      <app-user-post [userId]="userSelected"></app-user-post>
-
+      <app-user-post></app-user-post>
     </div>
   </div>
 </div>
