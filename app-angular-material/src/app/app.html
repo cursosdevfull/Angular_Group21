@@ -1,0 +1,23 @@
+<router-outlet />
+<mat-form-field>
+  <mat-label>Themes</mat-label>
+  <mat-select (selectionChange)="onChangeTheme($event)" [value]="theme.currentTheme().id">
+    @for (theme of theme.getThemes(); track theme) {
+    <mat-option [value]="theme.id">{{theme.displayName}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Style Themes</mat-label>
+  <mat-select (selectionChange)="onChangeStyleTheme($event)" [value]="theme.currentStyleTheme().id">
+    @for (style of theme.getStyleThemes(); track style) {
+    <mat-option [value]="style.id">{{style.displayName}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<br>
+<button matButton="filled">Botón de ejemplo</button>
+<p><mat-slide-toggle>Slide me!</mat-slide-toggle></p>
+<p><mat-slide-toggle labelPosition="before">...and slide me too!</mat-slide-toggle></p>

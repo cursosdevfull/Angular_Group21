@@ -1,0 +1,6 @@
+app-*
+cursosdev
+project01
+!app-angular-material
+node_modules
+dist
