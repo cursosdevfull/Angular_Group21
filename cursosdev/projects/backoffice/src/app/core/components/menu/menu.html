@@ -1,0 +1,11 @@
+<p>menu works!</p>
+<ul>
+    @for(item of menuService.menu; track item) {
+    <li>
+        <a [routerLink]="item.path">
+            <mat-icon>{{ item.icon }}</mat-icon>
+            {{ item.label }}
+        </a>
+    </li>
+    }
+</ul>

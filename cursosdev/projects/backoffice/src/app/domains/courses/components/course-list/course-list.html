@@ -1,0 +1,17 @@
+<cdev-lib-container>
+    <cdev-lib-table [dataSource]="dataSource" [metadata]="metadata">
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button>
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+    </cdev-lib-table>
+    <cdev-lib-paginator [pageSize]="pageSize" [length]="dataOriginal.length"
+        (onChangePage)="loadPage($event)"></cdev-lib-paginator>
+</cdev-lib-container>

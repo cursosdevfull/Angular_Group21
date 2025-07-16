@@ -1,20 +1,37 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { MatDrawerMode, MatSidenavModule } from '@angular/material/sidenav';
+import { Header } from '../core/components/header/header';
+import { Config } from '../core/services/config';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Menu } from '../core/components/menu/menu';
 
 @Component({
   selector: 'cdev-app',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, MatSidenavModule, Header, Menu],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
-  userName = 'Juan Pérez';
+  isSidenavOpened = true
+  modeDefault: MatDrawerMode = 'side';
 
-  menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: 'home' },
-    { id: 'courses', label: 'Cursos', icon: 'book' },
-    { id: 'students', label: 'Estudiantes', icon: 'users' },
-    { id: 'reports', label: 'Reportes', icon: 'chart' },
-    { id: 'settings', label: 'Configuración', icon: 'settings' }
-  ];
+  readonly config = inject(Config);
+
+  isOpened = computed(() => this.config.menuAction())
+
+  constructor() {
+    inject(BreakpointObserver)
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small
+      ])
+      .subscribe({
+        next: result => {
+          this.config.menuAction.set(!result.matches);
+          this.modeDefault = result.matches ? 'over' : 'side';
+        }
+      })
+  }
+
 }

@@ -1,9 +1,11 @@
 {
-  "name": "lib",
+  "name": "lib-cursosdev",
   "version": "0.0.1",
   "peerDependencies": {
+    "@angular/cdk": "^20.0.5",
     "@angular/common": "^20.0.0",
-    "@angular/core": "^20.0.0"
+    "@angular/core": "^20.0.0",
+    "@angular/material": "^20.0.5"
   },
   "dependencies": {
     "tslib": "^2.3.0"

@@ -1,0 +1,8 @@
+:host {
+  height: 83%;
+}
+
+.row:hover {
+  background-color: rgb(217, 218, 181);
+  cursor: pointer;
+}
