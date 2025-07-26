@@ -1,0 +1,56 @@
+<!-- Left side with background image and title -->
+<div class="left-panel">
+    <div class="app-title">
+        <h1>Courses Management</h1>
+        <p>Streamline your course management</p>
+    </div>
+</div>
+
+<!-- Right side with login form -->
+<div class="right-panel">
+    <div class="login-form-container">
+        <h2>Login</h2>
+
+        <form class="login-form" [formGroup]="fg">
+            <!-- Email field -->
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" placeholder="Enter your email" formControlName="email">
+                <mat-icon matSuffix>email</mat-icon>
+                @if(fg.get('email')?.invalid && (fg.get('email')?.dirty || fg.get('email')?.touched)) {
+                <mat-error>
+                    @if(fg.get('email')?.errors?.['required']) {
+                    <span>Email is required.</span>
+                    }
+                    @if(fg.get('email')?.errors?.['pattern']) {
+                    <span>Invalid email format.</span>
+                    }
+                </mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Password field -->
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" placeholder="Enter your password" formControlName="password">
+                <mat-icon matSuffix>lock</mat-icon>
+                @if(fg.get('password')?.invalid && (fg.get('password')?.dirty || fg.get('password')?.touched)) {
+                <mat-error>
+                    @if(fg.get('password')?.errors?.['required']) {
+                    <span>Password is required.</span>
+                    }
+                    @if(fg.get('password')?.errors?.['pattern']) {
+                    <span>Invalid password format.</span>
+                    }
+                </mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Login button -->
+            <button mat-raised-button color="primary" class="login-button" type="button" (click)="onLogin()">
+                <mat-icon>login</mat-icon>
+                Login
+            </button>
+        </form>
+    </div>
+</div>

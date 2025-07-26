@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Title } from '../title/title';
 
@@ -9,5 +9,5 @@ import { Title } from '../title/title';
   styleUrl: './container.css'
 })
 export class Container {
-
+  title = input.required<string>();
 }

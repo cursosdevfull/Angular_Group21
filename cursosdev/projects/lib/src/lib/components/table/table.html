@@ -5,7 +5,13 @@
         @for (meta of metadata(); track meta) {
         <ng-container [matColumnDef]="meta.field.toString()">
             <th mat-header-cell *matHeaderCellDef>{{ meta.label | titlecase }}</th>
-            <td mat-cell *matCellDef="let element">{{ element[meta.field] }}</td>
+            <td mat-cell *matCellDef="let element">
+                @if(meta.component) {
+                <div #status></div>
+                } @else {
+                {{ element[meta.field] }}
+                }
+            </td>
         </ng-container>
         }
 

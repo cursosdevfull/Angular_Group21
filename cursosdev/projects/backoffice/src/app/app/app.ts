@@ -5,6 +5,7 @@ import { Header } from '../core/components/header/header';
 import { Config } from '../core/services/config';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Menu } from '../core/components/menu/menu';
+import { LayoutService } from '../shared/modules/layout/layout.service';
 
 @Component({
   selector: 'cdev-app',
@@ -15,6 +16,8 @@ import { Menu } from '../core/components/menu/menu';
 export class App {
   isSidenavOpened = true
   modeDefault: MatDrawerMode = 'side';
+
+  layout = inject(LayoutService);
 
   readonly config = inject(Config);
 

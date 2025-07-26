@@ -1,4 +1,4 @@
-import { Component, contentChildren, effect, viewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Container } from '../../../../../../../lib/src/lib/components/container/container';
 import { Table } from '../../../../../../../lib/src/lib/components/table/table';
 import { Paginator } from '../../../../../../../lib/src/lib/components/paginator/paginator';
@@ -7,7 +7,9 @@ import { StatusEnum } from '../../../../core/enums/status';
 import { Metadata } from '../../../../core/types/metadata';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatColumnDef, MatTable, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
+import { Status } from '../../../../shared/components/status/status';
+import { ComponentBase } from '../../../../shared/components/component-base/component-base';
 
 @Component({
   selector: 'cdev-course-list',
@@ -15,7 +17,7 @@ import { MatColumnDef, MatTable, MatTableModule } from '@angular/material/table'
   templateUrl: './course-list.html',
   styleUrl: './course-list.css'
 })
-export class CourseList {
+export class CourseList extends ComponentBase<TCourse> {
   dataOriginal: TCourse[] = [
     { courseId: 1, title: 'Angular Basics', status: StatusEnum.ACTIVE },
     { courseId: 2, title: 'Advanced Angular', status: StatusEnum.INACTIVE },
@@ -90,24 +92,15 @@ export class CourseList {
     },
     {
       field: "status",
-      label: "Status"
+      label: "Status",
+      component: Status
     }
   ];
 
   dataSource: TCourse[] = []
 
-  pageSize = 15
-  currentPage = 0
-
   constructor() {
-    this.loadPage(0)
+    super()
+    this.loadPage(0);
   }
-
-  loadPage(page: number) {
-    this.currentPage = page;
-    const start = page * this.pageSize;
-    const end = start + this.pageSize;
-    this.dataSource = this.dataOriginal.slice(start, end);
-  }
-
 }
