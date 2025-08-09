@@ -1,20 +1,20 @@
 const express = require('express');
-const UserController = require('../controllers/UserController');
+const ScheduleController = require('../controllers/ScheduleController');
 const { authMiddleware } = require("../middleware/authMiddleware")
 
 const router = express.Router();
 
 /**
  * @swagger
- * /api/users:
+ * /api/schedules:
  *   get:
- *     summary: Obtener todos los usuarios
- *     tags: [Users]
+ *     summary: Obtener todos los horarios
+ *     tags: [Schedules]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Lista de usuarios obtenida exitosamente
+ *         description: Lista de horarios obtenida exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -25,7 +25,7 @@ const router = express.Router();
  *                     data:
  *                       type: array
  *                       items:
- *                         $ref: '#/components/schemas/User'
+ *                         $ref: '#/components/schemas/Schedule'
  *       401:
  *         description: Token de autenticación requerido
  *         content:
@@ -39,14 +39,14 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/', authMiddleware, UserController.getAll);
+router.get('/', authMiddleware, ScheduleController.getAll);
 
 /**
  * @swagger
- * /api/users/paginated:
+ * /api/schedules/paginated:
  *   get:
- *     summary: Obtener usuarios paginados
- *     tags: [Users]
+ *     summary: Obtener horarios paginados
+ *     tags: [Schedules]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -59,7 +59,7 @@ router.get('/', authMiddleware, UserController.getAll);
  *         description: Número de página (comenzando desde 0)
  *     responses:
  *       200:
- *         description: Lista paginada de usuarios obtenida exitosamente
+ *         description: Lista paginada de horarios obtenida exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -83,26 +83,26 @@ router.get('/', authMiddleware, UserController.getAll);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/paginated', authMiddleware, UserController.getPaginated);
+router.get('/paginated', authMiddleware, ScheduleController.getPaginated);
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/schedules/course/{courseId}:
  *   get:
- *     summary: Obtener un usuario por ID
- *     tags: [Users]
+ *     summary: Obtener horarios por curso
+ *     tags: [Schedules]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: userId
+ *         name: courseId
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID único del usuario
+ *         description: ID único del curso
  *     responses:
  *       200:
- *         description: Usuario obtenido exitosamente
+ *         description: Lista de horarios del curso obtenida exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -111,15 +111,11 @@ router.get('/paginated', authMiddleware, UserController.getPaginated);
  *                 - type: object
  *                   properties:
  *                     data:
- *                       $ref: '#/components/schemas/User'
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Schedule'
  *       400:
- *         description: ID de usuario inválido
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       404:
- *         description: Usuario no encontrado
+ *         description: ID de curso inválido
  *         content:
  *           application/json:
  *             schema:
@@ -137,14 +133,68 @@ router.get('/paginated', authMiddleware, UserController.getPaginated);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/:userId', authMiddleware, UserController.getById);
+router.get('/course/:courseId', authMiddleware, ScheduleController.getByCourseId);
 
 /**
  * @swagger
- * /api/users:
+ * /api/schedules/{scheduleId}:
+ *   get:
+ *     summary: Obtener un horario por ID
+ *     tags: [Schedules]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: scheduleId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID único del horario
+ *     responses:
+ *       200:
+ *         description: Horario obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/components/schemas/ApiResponse'
+ *                 - type: object
+ *                   properties:
+ *                     data:
+ *                       $ref: '#/components/schemas/Schedule'
+ *       400:
+ *         description: ID de horario inválido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Horario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       401:
+ *         description: Token de autenticación requerido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.get('/:scheduleId', authMiddleware, ScheduleController.getById);
+
+/**
+ * @swagger
+ * /api/schedules:
  *   post:
- *     summary: Crear un nuevo usuario
- *     tags: [Users]
+ *     summary: Crear un nuevo horario
+ *     tags: [Schedules]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -154,23 +204,35 @@ router.get('/:userId', authMiddleware, UserController.getById);
  *           schema:
  *             type: object
  *             required:
+ *               - courseId
  *               - name
- *               - email
- *               - password
+ *               - frequency
+ *               - duration
+ *               - resume
+ *               - price
  *             properties:
+ *               courseId:
+ *                 type: integer
+ *                 example: 1
  *               name:
  *                 type: string
- *                 example: "Juan Pérez"
- *               email:
+ *                 example: "Grupo Mañana"
+ *               frequency:
  *                 type: string
- *                 format: email
- *                 example: "juan@example.com"
- *               password:
+ *                 example: "Lunes a Viernes"
+ *               duration:
  *                 type: string
- *                 example: "123456"
+ *                 example: "3 meses"
+ *               resume:
+ *                 type: string
+ *                 example: "Curso intensivo de Angular con enfoque práctico"
+ *               price:
+ *                 type: number
+ *                 format: float
+ *                 example: 299.99
  *     responses:
  *       201:
- *         description: Usuario creado exitosamente
+ *         description: Horario creado exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -179,9 +241,9 @@ router.get('/:userId', authMiddleware, UserController.getById);
  *                 - type: object
  *                   properties:
  *                     data:
- *                       $ref: '#/components/schemas/User'
+ *                       $ref: '#/components/schemas/Schedule'
  *       400:
- *         description: Datos de entrada inválidos o email ya existe
+ *         description: Datos de entrada inválidos o curso no existe
  *         content:
  *           application/json:
  *             schema:
@@ -199,23 +261,23 @@ router.get('/:userId', authMiddleware, UserController.getById);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/', authMiddleware, UserController.create);
+router.post('/', authMiddleware, ScheduleController.create);
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/schedules/{scheduleId}:
  *   put:
- *     summary: Actualizar un usuario
- *     tags: [Users]
+ *     summary: Actualizar un horario
+ *     tags: [Schedules]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: userId
+ *         name: scheduleId
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID único del usuario
+ *         description: ID único del horario
  *     requestBody:
  *       required: true
  *       content:
@@ -223,19 +285,28 @@ router.post('/', authMiddleware, UserController.create);
  *           schema:
  *             type: object
  *             properties:
+ *               courseId:
+ *                 type: integer
+ *                 example: 1
  *               name:
  *                 type: string
- *                 example: "Juan Carlos Pérez"
- *               email:
+ *                 example: "Grupo Tarde"
+ *               frequency:
  *                 type: string
- *                 format: email
- *                 example: "juancarlos@example.com"
- *               password:
+ *                 example: "Lunes, Miércoles y Viernes"
+ *               duration:
  *                 type: string
- *                 example: "newpassword123"
+ *                 example: "4 meses"
+ *               resume:
+ *                 type: string
+ *                 example: "Curso de Angular para profesionales"
+ *               price:
+ *                 type: number
+ *                 format: float
+ *                 example: 349.99
  *     responses:
  *       200:
- *         description: Usuario actualizado exitosamente
+ *         description: Horario actualizado exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -244,15 +315,15 @@ router.post('/', authMiddleware, UserController.create);
  *                 - type: object
  *                   properties:
  *                     data:
- *                       $ref: '#/components/schemas/User'
+ *                       $ref: '#/components/schemas/Schedule'
  *       400:
- *         description: Datos de entrada inválidos o email ya existe
+ *         description: Datos de entrada inválidos o curso no existe
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *       404:
- *         description: Usuario no encontrado
+ *         description: Horario no encontrado
  *         content:
  *           application/json:
  *             schema:
@@ -270,26 +341,26 @@ router.post('/', authMiddleware, UserController.create);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.put('/:userId', authMiddleware, UserController.update);
+router.put('/:scheduleId', authMiddleware, ScheduleController.update);
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/schedules/{scheduleId}:
  *   delete:
- *     summary: Eliminar un usuario
- *     tags: [Users]
+ *     summary: Eliminar un horario
+ *     tags: [Schedules]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: userId
+ *         name: scheduleId
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID único del usuario
+ *         description: ID único del horario
  *     responses:
  *       200:
- *         description: Usuario eliminado exitosamente
+ *         description: Horario eliminado exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -300,13 +371,13 @@ router.put('/:userId', authMiddleware, UserController.update);
  *                     data:
  *                       type: null
  *       400:
- *         description: ID de usuario inválido
+ *         description: ID de horario inválido
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *       404:
- *         description: Usuario no encontrado
+ *         description: Horario no encontrado
  *         content:
  *           application/json:
  *             schema:
@@ -324,6 +395,6 @@ router.put('/:userId', authMiddleware, UserController.update);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete('/:userId', authMiddleware, UserController.delete);
+router.delete('/:scheduleId', authMiddleware, ScheduleController.delete);
 
 module.exports = router;

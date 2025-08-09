@@ -1,20 +1,20 @@
 const express = require('express');
-const UserController = require('../controllers/UserController');
+const CourseController = require('../controllers/CourseController');
 const { authMiddleware } = require("../middleware/authMiddleware")
 
 const router = express.Router();
 
 /**
  * @swagger
- * /api/users:
+ * /api/courses:
  *   get:
- *     summary: Obtener todos los usuarios
- *     tags: [Users]
+ *     summary: Obtener todos los cursos
+ *     tags: [Courses]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Lista de usuarios obtenida exitosamente
+ *         description: Lista de cursos obtenida exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -25,7 +25,7 @@ const router = express.Router();
  *                     data:
  *                       type: array
  *                       items:
- *                         $ref: '#/components/schemas/User'
+ *                         $ref: '#/components/schemas/Course'
  *       401:
  *         description: Token de autenticación requerido
  *         content:
@@ -39,14 +39,14 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/', authMiddleware, UserController.getAll);
+router.get('/', authMiddleware, CourseController.getAll);
 
 /**
  * @swagger
- * /api/users/paginated:
+ * /api/courses/paginated:
  *   get:
- *     summary: Obtener usuarios paginados
- *     tags: [Users]
+ *     summary: Obtener cursos paginados
+ *     tags: [Courses]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -59,7 +59,7 @@ router.get('/', authMiddleware, UserController.getAll);
  *         description: Número de página (comenzando desde 0)
  *     responses:
  *       200:
- *         description: Lista paginada de usuarios obtenida exitosamente
+ *         description: Lista paginada de cursos obtenida exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -83,26 +83,26 @@ router.get('/', authMiddleware, UserController.getAll);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/paginated', authMiddleware, UserController.getPaginated);
+router.get('/paginated', authMiddleware, CourseController.getPaginated);
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/courses/{courseId}:
  *   get:
- *     summary: Obtener un usuario por ID
- *     tags: [Users]
+ *     summary: Obtener un curso por ID
+ *     tags: [Courses]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: userId
+ *         name: courseId
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID único del usuario
+ *         description: ID único del curso
  *     responses:
  *       200:
- *         description: Usuario obtenido exitosamente
+ *         description: Curso obtenido exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -111,15 +111,15 @@ router.get('/paginated', authMiddleware, UserController.getPaginated);
  *                 - type: object
  *                   properties:
  *                     data:
- *                       $ref: '#/components/schemas/User'
+ *                       $ref: '#/components/schemas/Course'
  *       400:
- *         description: ID de usuario inválido
+ *         description: ID de curso inválido
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *       404:
- *         description: Usuario no encontrado
+ *         description: Curso no encontrado
  *         content:
  *           application/json:
  *             schema:
@@ -137,14 +137,14 @@ router.get('/paginated', authMiddleware, UserController.getPaginated);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/:userId', authMiddleware, UserController.getById);
+router.get('/:courseId', authMiddleware, CourseController.getById);
 
 /**
  * @swagger
- * /api/users:
+ * /api/courses:
  *   post:
- *     summary: Crear un nuevo usuario
- *     tags: [Users]
+ *     summary: Crear un nuevo curso
+ *     tags: [Courses]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -155,22 +155,13 @@ router.get('/:userId', authMiddleware, UserController.getById);
  *             type: object
  *             required:
  *               - name
- *               - email
- *               - password
  *             properties:
  *               name:
  *                 type: string
- *                 example: "Juan Pérez"
- *               email:
- *                 type: string
- *                 format: email
- *                 example: "juan@example.com"
- *               password:
- *                 type: string
- *                 example: "123456"
+ *                 example: "Angular Fundamentals"
  *     responses:
  *       201:
- *         description: Usuario creado exitosamente
+ *         description: Curso creado exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -179,9 +170,9 @@ router.get('/:userId', authMiddleware, UserController.getById);
  *                 - type: object
  *                   properties:
  *                     data:
- *                       $ref: '#/components/schemas/User'
+ *                       $ref: '#/components/schemas/Course'
  *       400:
- *         description: Datos de entrada inválidos o email ya existe
+ *         description: Datos de entrada inválidos o nombre ya existe
  *         content:
  *           application/json:
  *             schema:
@@ -199,23 +190,23 @@ router.get('/:userId', authMiddleware, UserController.getById);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/', authMiddleware, UserController.create);
+router.post('/', authMiddleware, CourseController.create);
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/courses/{courseId}:
  *   put:
- *     summary: Actualizar un usuario
- *     tags: [Users]
+ *     summary: Actualizar un curso
+ *     tags: [Courses]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: userId
+ *         name: courseId
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID único del usuario
+ *         description: ID único del curso
  *     requestBody:
  *       required: true
  *       content:
@@ -225,17 +216,10 @@ router.post('/', authMiddleware, UserController.create);
  *             properties:
  *               name:
  *                 type: string
- *                 example: "Juan Carlos Pérez"
- *               email:
- *                 type: string
- *                 format: email
- *                 example: "juancarlos@example.com"
- *               password:
- *                 type: string
- *                 example: "newpassword123"
+ *                 example: "Angular Advanced"
  *     responses:
  *       200:
- *         description: Usuario actualizado exitosamente
+ *         description: Curso actualizado exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -244,15 +228,15 @@ router.post('/', authMiddleware, UserController.create);
  *                 - type: object
  *                   properties:
  *                     data:
- *                       $ref: '#/components/schemas/User'
+ *                       $ref: '#/components/schemas/Course'
  *       400:
- *         description: Datos de entrada inválidos o email ya existe
+ *         description: Datos de entrada inválidos o nombre ya existe
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *       404:
- *         description: Usuario no encontrado
+ *         description: Curso no encontrado
  *         content:
  *           application/json:
  *             schema:
@@ -270,26 +254,26 @@ router.post('/', authMiddleware, UserController.create);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.put('/:userId', authMiddleware, UserController.update);
+router.put('/:courseId', authMiddleware, CourseController.update);
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/courses/{courseId}:
  *   delete:
- *     summary: Eliminar un usuario
- *     tags: [Users]
+ *     summary: Eliminar un curso
+ *     tags: [Courses]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: userId
+ *         name: courseId
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID único del usuario
+ *         description: ID único del curso
  *     responses:
  *       200:
- *         description: Usuario eliminado exitosamente
+ *         description: Curso eliminado exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -300,13 +284,13 @@ router.put('/:userId', authMiddleware, UserController.update);
  *                     data:
  *                       type: null
  *       400:
- *         description: ID de usuario inválido
+ *         description: ID de curso inválido o curso tiene horarios asociados
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *       404:
- *         description: Usuario no encontrado
+ *         description: Curso no encontrado
  *         content:
  *           application/json:
  *             schema:
@@ -324,6 +308,6 @@ router.put('/:userId', authMiddleware, UserController.update);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete('/:userId', authMiddleware, UserController.delete);
+router.delete('/:courseId', authMiddleware, CourseController.delete);
 
 module.exports = router;

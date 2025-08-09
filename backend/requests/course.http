@@ -1,0 +1,33 @@
+### Obtener todos los cursos
+GET http://localhost:3000/api/courses
+Authorization: Bearer {{access_token}}
+
+### Obtener cursos paginados
+GET http://localhost:3000/api/courses/paginated?page=0
+Authorization: Bearer {{access_token}}
+
+### Obtener curso por ID
+GET http://localhost:3000/api/courses/1
+Authorization: Bearer {{access_token}}
+
+### Crear nuevo curso
+POST http://localhost:3000/api/courses
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "name": "Angular Fundamentals"
+}
+
+### Actualizar curso
+PUT http://localhost:3000/api/courses/1
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "name": "Angular Advanced"
+}
+
+### Eliminar curso
+DELETE http://localhost:3000/api/courses/1
+Authorization: Bearer {{access_token}}

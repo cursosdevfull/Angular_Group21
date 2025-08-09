@@ -1,0 +1,45 @@
+### Obtener todos los horarios
+GET http://localhost:3000/api/schedules
+Authorization: Bearer {{access_token}}
+
+### Obtener horarios paginados
+GET http://localhost:3000/api/schedules/paginated?page=0
+Authorization: Bearer {{access_token}}
+
+### Obtener horarios por curso
+GET http://localhost:3000/api/schedules/course/1
+Authorization: Bearer {{access_token}}
+
+### Obtener horario por ID
+GET http://localhost:3000/api/schedules/1
+Authorization: Bearer {{access_token}}
+
+### Crear nuevo horario
+POST http://localhost:3000/api/schedules
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "courseId": 1,
+    "name": "Grupo Mañana",
+    "frequency": "Lunes a Viernes",
+    "duration": "3 meses",
+    "resume": "Curso intensivo de Angular con enfoque práctico y proyectos reales",
+    "price": 299.99
+}
+
+### Actualizar horario
+PUT http://localhost:3000/api/schedules/1
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "name": "Grupo Tarde",
+    "frequency": "Lunes, Miércoles y Viernes",
+    "duration": "4 meses",
+    "price": 349.99
+}
+
+### Eliminar horario
+DELETE http://localhost:3000/api/schedules/1
+Authorization: Bearer {{access_token}}
