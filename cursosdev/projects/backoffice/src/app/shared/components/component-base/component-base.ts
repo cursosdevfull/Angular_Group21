@@ -1,28 +1,37 @@
 /* import { Component } from '@angular/core'; */
 
-import { inject } from "@angular/core";
+import { effect, inject, Injector, runInInjectionContext, signal, computed } from "@angular/core";
 import { Metadata } from "../../../core/types/metadata";
 import { LayoutService } from "../../modules/layout/layout.service";
+import { BaseService } from "../../../core/interfaces/base-service";
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Paginate } from "../../../core/types/paginate";
 
-/* @Component({
-  selector: 'cdev-component-base',
-  imports: [],
-  templateUrl: './component-base.html',
-  styleUrl: './component-base.css'
-}) */
-export abstract class ComponentBase<T> {
+export abstract class ComponentBase<T, U extends BaseService<T>> {
   private readonly layoutService = inject(LayoutService);
-  abstract dataOriginal: T[];
+  abstract service: U;
 
   abstract metadata: Metadata<T>
-
-  abstract dataSource: T[];
 
   pageSize = 15;
 
   currentPage = 0;
 
-  constructor() {
+  // Use signal for the current page response
+  protected currentPageResponse = signal<Paginate<T> | undefined>(undefined);
+
+  // Computed signal for dataSource based on the response
+  dataSource = computed(() => {
+    const response = this.currentPageResponse();
+    return response ? response.data : [];
+  });
+
+  pagination = computed(() => {
+    const response = this.currentPageResponse();
+    return response ? response.pagination : undefined;
+  });
+
+  constructor(private injector: Injector) {
     this.layoutService.changeConfigLayout({
       header: true,
       menu: true
@@ -30,11 +39,18 @@ export abstract class ComponentBase<T> {
   }
 
   loadPage(page: number) {
-    console.log('Loading page:', page);
-    console.log('Data original:', this.dataOriginal);
-    this.currentPage = page;
-    const start = page * this.pageSize;
-    const end = start + this.pageSize;
-    this.dataSource = this.dataOriginal.slice(start, end);
+    runInInjectionContext(this.injector, () => {
+      console.log('Loading page:', page);
+      this.currentPage = page;
+
+      const response = this.service.getByPage(page);
+
+      effect(() => {
+        const data = response();
+        if (data) {
+          this.currentPageResponse.set(data);
+        }
+      });
+    });
   }
 }

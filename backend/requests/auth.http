@@ -1,0 +1,17 @@
+###
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "sergio@cursosdev.com",
+  "password": "3LGigante2025?"
+}
+
+
+###
+POST http://localhost:3000/api/auth/refresh-token
+Content-Type: application/json
+
+{
+  "refreshToken": "ee575426-f56a-4e97-9a0f-05de85e6c966"
+}

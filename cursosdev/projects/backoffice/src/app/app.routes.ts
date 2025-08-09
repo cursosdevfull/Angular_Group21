@@ -1,5 +1,7 @@
-import { Routes } from '@angular/router';
+import { ActivatedRoute, Router, Routes, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { Login } from './domains/auth/component/login/login';
+import { inject } from '@angular/core';
+
 
 export const routes: Routes = [
     {
@@ -21,7 +23,30 @@ export const routes: Routes = [
             ),
     },
     {
+        path: 'users',
+        loadComponent: () =>
+            import('./domains/users/components/user-list/user-list').then(
+                (m) => m.UserList
+            ),
+    },
+    {
         path: "**",
-        redirectTo: "login"
+        redirectTo: () => {
+            //return "/login";
+            const activedRoute = inject(ActivatedRoute);
+            const previousRoute = activedRoute.snapshot.firstChild?.routeConfig?.path
+
+            const urlTree = new UrlTree();
+            urlTree.root = new UrlSegmentGroup([new UrlSegment('login', {})], {});
+            urlTree.queryParams = { error: 'Page not found', 'timestamp': new Date().getTime(), 'status': 404, 'previousRoute': previousRoute || 'unknown' };
+            return urlTree;
+
+
+            /* return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve("/login");
+                }, 2000);
+            }) */
+        }
     }
 ];

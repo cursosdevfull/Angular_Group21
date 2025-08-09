@@ -1,0 +1,14 @@
+### Obtener usuarios paginados - Página 0 (primera página)
+GET http://localhost:3000/api/users/paginated?page=0
+
+### Obtener usuarios paginados - Página 1
+GET http://localhost:3000/api/users/paginated?page=1
+
+### Obtener usuarios paginados - Sin parámetro page (por defecto página 0)
+GET http://localhost:3000/api/users/paginated
+
+### Obtener usuarios paginados - Página inválida (debería devolver error)
+GET http://localhost:3000/api/users/paginated?page=-1
+
+### Obtener usuarios paginados - Página con texto (debería devolver error)
+GET http://localhost:3000/api/users/paginated?page=abc

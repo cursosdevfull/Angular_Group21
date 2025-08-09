@@ -1,6 +1,6 @@
-<cdev-lib-container title="Courses">
+<cdev-lib-container title="Users">
     <button mat-flat-button action>
-        Add Course
+        Add User
     </button>
     <cdev-lib-table [dataSource]="dataSource()" [metadata]="metadata" dataTable>
         <ng-container matColumnDef="actions">
@@ -15,6 +15,6 @@
             </td>
         </ng-container>
     </cdev-lib-table>
-    <cdev-lib-paginator [pageSize]="pageSize" [length]="dataOriginal.length"
+    <cdev-lib-paginator [pageSize]="pagination()?.pageSize!" [length]="pagination()?.totalItems!"
         (onChangePage)="loadPage($event)"></cdev-lib-paginator>
 </cdev-lib-container>

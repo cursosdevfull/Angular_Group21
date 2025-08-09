@@ -1,4 +1,6 @@
 <mat-card>
-    <cdev-lib-title [title]="title()"></cdev-lib-title>
-    <ng-content></ng-content>
+    <cdev-lib-title [title]="title()">
+        <ng-content select="[action]"></ng-content>
+    </cdev-lib-title>
+    <ng-content select="[dataTable]"></ng-content>
 </mat-card>

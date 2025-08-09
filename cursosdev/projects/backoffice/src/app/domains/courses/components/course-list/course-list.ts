@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { Container } from '../../../../../../../lib/src/lib/components/container/container';
 import { Table } from '../../../../../../../lib/src/lib/components/table/table';
 import { Paginator } from '../../../../../../../lib/src/lib/components/paginator/paginator';
@@ -17,7 +17,7 @@ import { ComponentBase } from '../../../../shared/components/component-base/comp
   templateUrl: './course-list.html',
   styleUrl: './course-list.css'
 })
-export class CourseList extends ComponentBase<TCourse> {
+export class CourseList extends ComponentBase<TCourse, any> {
   dataOriginal: TCourse[] = [
     { courseId: 1, title: 'Angular Basics', status: StatusEnum.ACTIVE },
     { courseId: 2, title: 'Advanced Angular', status: StatusEnum.INACTIVE },
@@ -81,6 +81,8 @@ export class CourseList extends ComponentBase<TCourse> {
     { courseId: 4, title: 'Angular Performance', status: StatusEnum.INACTIVE },
   ];
 
+  service: any = null
+
   metadata: Metadata<TCourse> = [
     {
       field: "courseId",
@@ -97,10 +99,10 @@ export class CourseList extends ComponentBase<TCourse> {
     }
   ];
 
-  dataSource: TCourse[] = []
+  //dataSource: TCourse[] = []
 
-  constructor() {
-    super()
+  constructor(injector: Injector) {
+    super(injector)
     this.loadPage(0);
   }
 }

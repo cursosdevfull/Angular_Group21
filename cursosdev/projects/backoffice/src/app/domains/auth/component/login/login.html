@@ -25,6 +25,9 @@
                     @if(fg.get('email')?.errors?.['pattern']) {
                     <span>Invalid email format.</span>
                     }
+                    @if(fg.get('email')?.errors?.['emailCompany']) {
+                    <span>{{ fg.get('email')?.errors?.['emailCompany']?.value }} is not allowed.</span>
+                    }
                 </mat-error>
                 }
             </mat-form-field>
@@ -45,6 +48,29 @@
                 </mat-error>
                 }
             </mat-form-field>
+
+            <!-- Confirm field -->
+            <!--             <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Confirm Password</mat-label>
+                <input matInput type="password" placeholder="Confirm your password" formControlName="confirm">
+                <mat-icon matSuffix>lock</mat-icon>
+                @if(fg.get('confirm')?.invalid && (fg.get('confirm')?.dirty || fg.get('confirm')?.touched)) {
+                <mat-error>
+                    @if(fg.get('confirm')?.errors?.['required']) {
+                    <span>Confirm Password is required.</span>
+                    }
+                    @if(fg.get('confirm')?.errors?.['pattern']) {
+                    <span>Invalid Confirm Password format.</span>
+                    }
+                    @if(fg.get('confirm')?.errors?.['passwordAndConfirm']) {
+                    <span>Password and confirm do not match.</span>
+                    }
+                </mat-error>
+                }
+            </mat-form-field>
+            @if(fg.errors?.['passwordAndConfirm']) {
+            <span class="error">Passwords do not match.</span>
+            } -->
 
             <!-- Login button -->
             <button mat-raised-button color="primary" class="login-button" type="button" (click)="onLogin()">

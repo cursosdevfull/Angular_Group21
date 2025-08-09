@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { ComponentBase } from '../../../../shared/components/component-base/component-base';
 import { TSchedule } from '../../types/schedule';
 import { StatusEnum } from '../../../../core/enums/status';
@@ -17,7 +17,7 @@ import { Table } from '../../../../../../../lib/src/lib/components/table/table';
   templateUrl: './schedule-list.html',
   styleUrl: './schedule-list.css'
 })
-export class ScheduleList extends ComponentBase<TSchedule> {
+export class ScheduleList extends ComponentBase<TSchedule, any> {
   dataOriginal: TSchedule[] = [
     { scheduleId: 1, courseId: 1, title: 'Angular Basics', status: StatusEnum.ACTIVE, startDate: new Date().toLocaleDateString(), duration: 60, frequency: 'Weekly' },
     { scheduleId: 2, courseId: 2, title: 'Advanced Angular', status: StatusEnum.INACTIVE, startDate: new Date().toLocaleDateString(), duration: 60, frequency: 'Weekly' },
@@ -25,6 +25,8 @@ export class ScheduleList extends ComponentBase<TSchedule> {
     { scheduleId: 4, courseId: 4, title: 'Angular Performance', status: StatusEnum.INACTIVE, startDate: new Date().toLocaleDateString(), duration: 60, frequency: 'Weekly' },
     { scheduleId: 5, courseId: 1, title: 'Angular Basics', status: StatusEnum.ACTIVE, startDate: new Date().toLocaleDateString(), duration: 60, frequency: 'Weekly' },
   ];
+
+  service: any = null
 
   metadata: Metadata<TSchedule> = [
     {
@@ -54,10 +56,10 @@ export class ScheduleList extends ComponentBase<TSchedule> {
     }
   ];
 
-  dataSource: TSchedule[] = []
+  //dataSource: TSchedule[] = []
 
-  constructor() {
-    super()
+  constructor(injector: Injector) {
+    super(injector)
     this.loadPage(0);
   }
 }

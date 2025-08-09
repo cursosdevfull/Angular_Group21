@@ -17,6 +17,11 @@ export class MenuService {
       icon: "school"
     },
     {
+      path: "/users",
+      label: "Users",
+      icon: "people"
+    },
+    {
       path: "/schedules",
       label: "Schedules",
       icon: "schedule"

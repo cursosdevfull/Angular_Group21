@@ -108,6 +108,12 @@
   margin-right: 8px;
 }
 
+.error {
+  color: #ba1a1a;
+  font-size: 12px;
+  margin-top: 0.5rem;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .login-container {
