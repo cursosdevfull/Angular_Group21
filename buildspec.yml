@@ -1,0 +1,25 @@
+version: "0.2"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+  pre_build:
+    commands:
+      - cd cursosdev
+      - echo "Installing dependencies"
+      - npm ci
+  build:
+    commands:
+      - echo "Starting compilation"
+      - npm run build --project backoffice --configuration=production
+  post_build:
+    commands:
+      - aws s3 rm s3://bucket-curso-angular-21 --recursive
+      - aws s3 sync dist/backoffice/browser s3://bucket-curso-angular-21 --delete
+      - aws cloudfront create-invalidation --distribution-id E210MZMIFI2MUU --paths /*
+artifacts:
+  name: "Angular21"
+  files:
+    - "**/*"
+  base-directory:  "cursosdev/dist/backoffice/browser"

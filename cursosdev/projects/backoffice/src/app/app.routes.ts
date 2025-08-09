@@ -1,6 +1,7 @@
 import { ActivatedRoute, Router, Routes, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { Login } from './domains/auth/component/login/login';
 import { inject } from '@angular/core';
+import { authenticationGuard } from './core/guards/authentication-guard';
 
 
 export const routes: Routes = [
@@ -9,7 +10,16 @@ export const routes: Routes = [
         component: Login
     },
     {
+        path: 'dashboard',
+        canActivate: [authenticationGuard],
+        loadComponent: () =>
+            import('./domains/dashboard/components/dashboard/dashboard').then(
+                (m) => m.Dashboard
+            ),
+    },
+    {
         path: 'courses',
+        canActivate: [authenticationGuard],
         loadComponent: () =>
             import('./domains/courses/components/course-list/course-list').then(
                 (m) => m.CourseList
@@ -17,6 +27,7 @@ export const routes: Routes = [
     },
     {
         path: 'schedules',
+        canActivate: [authenticationGuard],
         loadComponent: () =>
             import('./domains/schedules/components/schedule-list/schedule-list').then(
                 (m) => m.ScheduleList
@@ -24,6 +35,7 @@ export const routes: Routes = [
     },
     {
         path: 'users',
+        canActivate: [authenticationGuard],
         loadComponent: () =>
             import('./domains/users/components/user-list/user-list').then(
                 (m) => m.UserList

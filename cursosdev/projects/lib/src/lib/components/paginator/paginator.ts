@@ -21,6 +21,7 @@ export class Paginator {
   onChangePage = output<number>();
 
   constructor() {
+    console.log('Paginator component initialized');
     effect(() => {
       console.log(`Paginator initialized with length: ${this.length()}, pageSize: ${this.pageSize()}`);
     });

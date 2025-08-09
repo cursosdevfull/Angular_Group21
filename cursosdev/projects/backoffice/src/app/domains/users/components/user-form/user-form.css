@@ -1,0 +1,22 @@
+.cdev-dialog {
+  width: 550px;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+mat-toolbar {
+  background-color: cadetblue;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+}

@@ -62,4 +62,9 @@ export class ScheduleList extends ComponentBase<TSchedule, any> {
     super(injector)
     this.loadPage(0);
   }
+
+  openForm(data: any): void {
+    console.log('Open form for data:', data);
+    //this.dialog.open(UserForm)
+  }
 }

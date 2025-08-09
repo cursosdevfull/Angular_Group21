@@ -1,20 +1,23 @@
 <cdev-lib-container title="Users">
-    <button mat-flat-button action>
+    <button mat-flat-button action (click)="openForm()">
         Add User
     </button>
     <cdev-lib-table [dataSource]="dataSource()" [metadata]="metadata" dataTable>
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let element">
-                <button mat-icon-button>
+                <button mat-icon-button (click)="openForm(element)">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button>
+                <button mat-icon-button (click)="delete(element)">
                     <mat-icon>delete</mat-icon>
                 </button>
             </td>
         </ng-container>
     </cdev-lib-table>
-    <cdev-lib-paginator [pageSize]="pagination()?.pageSize!" [length]="pagination()?.totalItems!"
-        (onChangePage)="loadPage($event)"></cdev-lib-paginator>
+    <div class="footer" footer>
+        <button mat-stroked-button (click)="export()">Export to Excel</button>
+        <cdev-lib-paginator [pageSize]="pagination()?.pageSize!" [length]="pagination()?.totalItems!"
+            (onChangePage)="loadPage($event)"></cdev-lib-paginator>
+    </div>
 </cdev-lib-container>

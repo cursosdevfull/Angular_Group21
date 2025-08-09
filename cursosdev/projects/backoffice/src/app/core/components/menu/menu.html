@@ -1,11 +1,9 @@
-<p>menu works!</p>
-<ul>
-    @for(item of menuService.menu; track item) {
-    <li>
-        <a [routerLink]="item.path">
-            <mat-icon>{{ item.icon }}</mat-icon>
-            {{ item.label }}
-        </a>
-    </li>
+<mat-nav-list>
+    @for (link of menuService.menu; track link) {
+    <mat-list-item>
+        <a matListItemTitle [routerLink]="link.path">
+            <mat-icon>{{ link.icon }}</mat-icon>
+            {{ link.label }}</a>
+    </mat-list-item>
     }
-</ul>
+</mat-nav-list>

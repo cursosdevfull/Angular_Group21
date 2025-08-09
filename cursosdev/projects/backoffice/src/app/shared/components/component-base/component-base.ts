@@ -4,7 +4,6 @@ import { effect, inject, Injector, runInInjectionContext, signal, computed } fro
 import { Metadata } from "../../../core/types/metadata";
 import { LayoutService } from "../../modules/layout/layout.service";
 import { BaseService } from "../../../core/interfaces/base-service";
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Paginate } from "../../../core/types/paginate";
 
 export abstract class ComponentBase<T, U extends BaseService<T>> {
@@ -31,7 +30,7 @@ export abstract class ComponentBase<T, U extends BaseService<T>> {
     return response ? response.pagination : undefined;
   });
 
-  constructor(private injector: Injector) {
+  constructor(protected injector: Injector) {
     this.layoutService.changeConfigLayout({
       header: true,
       menu: true
@@ -53,4 +52,6 @@ export abstract class ComponentBase<T, U extends BaseService<T>> {
       });
     });
   }
+
+  abstract openForm(data?: any): void;
 }
